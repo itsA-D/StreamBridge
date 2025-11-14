@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "none",
+    "strict": true,
+    "noImplicitAny": false
+  },
+  "files": [
+    "viewer.ts"
+  ]
+}

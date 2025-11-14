@@ -1,0 +1,29 @@
+./
+  README.md
+  .gitignore
+  settings.gradle
+  build.gradle
+app/
+  build.gradle
+  app/src/
+    app/src/main/
+      AndroidManifest.xml
+      app/src/main/res/
+        app/src/main/res/layout/
+          activity_main.xml
+        app/src/main/res/values/
+          strings.xml
+      app/src/main/java/
+        app/src/main/java/com/
+          app/src/main/java/com/example/
+            app/src/main/java/com/example/edgeapp/
+              NativeBridge.kt
+              EdgeGLRenderer.kt
+              MainActivity.kt
+      app/src/main/cpp/
+        CMakeLists.txt
+        native-lib.cpp
+web/
+  index.html
+  viewer.ts
+  tsconfig.json

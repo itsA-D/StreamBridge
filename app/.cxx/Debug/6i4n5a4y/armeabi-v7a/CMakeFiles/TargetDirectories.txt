@@ -1,0 +1,3 @@
+A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/.cxx/Debug/6i4n5a4y/armeabi-v7a/CMakeFiles/native-lib.dir
+A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/.cxx/Debug/6i4n5a4y/armeabi-v7a/CMakeFiles/edit_cache.dir
+A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/.cxx/Debug/6i4n5a4y/armeabi-v7a/CMakeFiles/rebuild_cache.dir

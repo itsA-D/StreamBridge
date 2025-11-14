@@ -1,0 +1,7 @@
+[
+{
+  "directory": "A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/.cxx/Debug/6i4n5a4y/x86",
+  "command": "C:\\Users\\ankan\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=i686-none-linux-android21 --sysroot=C:/Users/ankan/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnative_lib_EXPORTS -isystem A:/OpenCV-android-sdk/sdk/native/jni/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles\\native-lib.dir\\native-lib.cpp.o -c \"A:\\shinobi no shuriken\\github repo\\FLAM\\StreamBridge\\app\\src\\main\\cpp\\native-lib.cpp\"",
+  "file": "A:\\shinobi no shuriken\\github repo\\FLAM\\StreamBridge\\app\\src\\main\\cpp\\native-lib.cpp"
+}
+]
