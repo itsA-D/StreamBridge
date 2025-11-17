@@ -13,17 +13,20 @@ extern "C"
 JNIEXPORT jbyteArray JNICALL
 Java_com_example_edgeapp_NativeBridge_processFrameNV21(JNIEnv *env, jobject thiz, jbyteArray input_, jint width, jint height) {
     if (input_ == nullptr) return nullptr;
-    jsize len = env->GetArrayLength(input_);
     jbyte* input = env->GetByteArrayElements(input_, NULL);
 
-    // NV21 to Mat (YUV420sp)
-    Mat yuv(height + height/2, width, CV_8UC1, (unsigned char*)input);
+    // Safely create a Mat from the Java byte array by copying the data
+    Mat yuv_raw(height + height/2, width, CV_8UC1, (unsigned char*)input);
+    Mat yuv = yuv_raw.clone();
+    
+    // Release the Java array as soon as we're done with it
+    env->ReleaseByteArrayElements(input_, input, 0);
+
     Mat rgba;
     try {
         cvtColor(yuv, rgba, COLOR_YUV2RGBA_NV21);
     } catch (cv::Exception& e) {
         LOGE("OpenCV cvtColor error: %s", e.what());
-        env->ReleaseByteArrayElements(input_, input, 0);
         return NULL;
     }
 
@@ -40,9 +43,12 @@ Java_com_example_edgeapp_NativeBridge_processFrameNV21(JNIEnv *env, jobject thiz
     // Prepare output byte array
     int outSize = out.total() * out.elemSize();
     jbyteArray outArr = env->NewByteArray(outSize);
+    if (outArr == NULL) {
+        // Out of memory
+        return NULL;
+    }
     env->SetByteArrayRegion(outArr, 0, outSize, (jbyte*)out.data);
 
-    env->ReleaseByteArrayElements(input_, input, 0);
     return outArr;
 }
 
@@ -52,20 +58,28 @@ Java_com_example_edgeapp_NativeBridge_convertNV21ToRGBA(JNIEnv *env, jobject thi
     if (input_ == nullptr) return nullptr;
     jbyte* input = env->GetByteArrayElements(input_, NULL);
 
-    Mat yuv(height + height/2, width, CV_8UC1, (unsigned char*)input);
+    // Safely create a Mat from the Java byte array by copying the data
+    Mat yuv_raw(height + height/2, width, CV_8UC1, (unsigned char*)input);
+    Mat yuv = yuv_raw.clone();
+
+    // Release the Java array as soon as we're done with it
+    env->ReleaseByteArrayElements(input_, input, 0);
+    
     Mat rgba;
     try {
         cvtColor(yuv, rgba, COLOR_YUV2RGBA_NV21);
     } catch (cv::Exception& e) {
         LOGE("OpenCV cvtColor error: %s", e.what());
-        env->ReleaseByteArrayElements(input_, input, 0);
         return NULL;
     }
 
     int outSize = rgba.total() * rgba.elemSize();
     jbyteArray outArr = env->NewByteArray(outSize);
+    if (outArr == NULL) {
+        // Out of memory
+        return NULL;
+    }
     env->SetByteArrayRegion(outArr, 0, outSize, (jbyte*)rgba.data);
 
-    env->ReleaseByteArrayElements(input_, input, 0);
     return outArr;
 }

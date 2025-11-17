@@ -1,3 +1,7 @@
 # ninja log v5
-1	4066	7848142547562480	CMakeFiles/native-lib.dir/native-lib.cpp.o	1b13cb20de039cbb
-4072	4960	7848142556410328	A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/build/intermediates/cxx/Debug/6i4n5a4y/obj/arm64-v8a/libnative-lib.so	d55fa6160614c5a3
+9	16379	7848283934244870	CMakeFiles/native-lib.dir/native-lib.cpp.o	1b13cb20de039cbb
+16379	17408	7848283944401769	A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/build/intermediates/cxx/Debug/6i4n5a4y/obj/arm64-v8a/libnative-lib.so	d55fa6160614c5a3
+35	1426	7848444577534589	A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/build/intermediates/cxx/Debug/6i4n5a4y/obj/arm64-v8a/libnative-lib.so	7961ea319457829e
+0	10	0	clean	42972f1f31c22b53
+0	10	0	clean	42972f1f31c22b53
+0	13	0	clean	42972f1f31c22b53

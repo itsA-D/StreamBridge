@@ -1,0 +1,16 @@
+{
+  "name": "streambridge",
+  "version": "1.0.0",
+  "description": "Android (Camera2) + OpenCV (C++) + OpenGL ES 2.0 + Web Viewer (TypeScript)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "typescript": "^5.9.3"
+  }
+}

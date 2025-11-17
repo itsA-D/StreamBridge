@@ -21,6 +21,7 @@ import android.widget.Toast
 import java.nio.ByteBuffer
 import android.os.Handler
 import android.os.HandlerThread
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var captureSession: CameraCaptureSession? = null
     private var imageReader: ImageReader? = null
 
-    private val CAMERA_RES = Size(640, 480)
+    private var cameraSize: Size = Size(640, 480)
 
     @Volatile private var showRaw = false
     private var backgroundThread: HandlerThread? = null
@@ -55,19 +56,15 @@ class MainActivity : AppCompatActivity() {
         fpsLabel = findViewById(R.id.fpsLabel)
         btnToggle = findViewById(R.id.btnToggle)
 
-        renderer = EdgeGLRenderer(CAMERA_RES.width, CAMERA_RES.height)
-        glSurface.setEGLContextClientVersion(2)
-        glSurface.setRenderer(renderer)
-        glSurface.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        // Renderer will be created after we determine a supported camera size in openCamera()
 
         btnToggle.setOnClickListener {
             showRaw = !showRaw
         }
 
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        // Do not open camera here; ensure background thread is started first (in onResume)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-        } else {
-            openCamera()
         }
     }
 
@@ -80,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         startBackgroundThread()
-        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             openCamera()
         }
     }
@@ -90,11 +87,23 @@ class MainActivity : AppCompatActivity() {
         try {
             val cameraId = manager.cameraIdList[0]
             val characteristics = manager.getCameraCharacteristics(cameraId)
-            val map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-            runOnUiThread {
-                setupImageReader(CAMERA_RES.width, CAMERA_RES.height)
-                manager.openCamera(cameraId, stateCallback, null)
+            // Choose a supported YUV_420_888 size close to 640x480
+            cameraSize = chooseSize(characteristics, Size(640, 480))
+
+            // Ensure background handler is available before wiring ImageReader
+            if (backgroundHandler == null) startBackgroundThread()
+            setupImageReader(cameraSize.width, cameraSize.height)
+
+            // Initialize the GL renderer once with the chosen size
+            if (!::renderer.isInitialized) {
+                renderer = EdgeGLRenderer(cameraSize.width, cameraSize.height)
+                glSurface.setEGLContextClientVersion(2)
+                glSurface.setRenderer(renderer)
+                glSurface.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
             }
+
+            // Use main looper for device callbacks; session callbacks use default looper below
+            manager.openCamera(cameraId, stateCallback, null)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -107,12 +116,17 @@ class MainActivity : AppCompatActivity() {
             val image = reader.acquireLatestImage() ?: return@setOnImageAvailableListener
             val nv21 = imageToNV21(image)
             image.close()
-            val processed = if (showRaw) {
-                NativeBridge.convertNV21ToRGBA(nv21, CAMERA_RES.width, CAMERA_RES.height)
-            } else {
-                NativeBridge.processFrameNV21(nv21, CAMERA_RES.width, CAMERA_RES.height)
-            }
-            if (processed != null) {
+            // Guard against missing native libs to prevent hard crash
+            val processed = try {
+                if (NativeBridge.isLoaded) {
+                    if (showRaw) {
+                        NativeBridge.convertNV21ToRGBA(nv21, cameraSize.width, cameraSize.height)
+                    } else {
+                        NativeBridge.processFrameNV21(nv21, cameraSize.width, cameraSize.height)
+                    }
+                } else null
+            } catch (_: Throwable) { null }
+            if (processed != null && ::renderer.isInitialized) {
                 renderer.updateFrameBytes(processed)
             }
             updateFps()
@@ -185,6 +199,25 @@ class MainActivity : AppCompatActivity() {
         } catch (e: InterruptedException) { }
         backgroundThread = null
         backgroundHandler = null
+    }
+
+    private fun chooseSize(characteristics: CameraCharacteristics, preferred: Size): Size {
+        val map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) as? android.hardware.camera2.params.StreamConfigurationMap
+        val sizes: Array<Size> = map?.getOutputSizes(ImageFormat.YUV_420_888) ?: return preferred
+        var exact: Size? = null
+        var closest: Size? = null
+        val prefArea = preferred.width * preferred.height
+        for (s in sizes) {
+            if (s.width == preferred.width && s.height == preferred.height) {
+                exact = s
+                break
+            }
+            val area = s.width * s.height
+            if (closest == null || kotlin.math.abs(area - prefArea) < kotlin.math.abs(closest.width * closest.height - prefArea)) {
+                closest = s
+            }
+        }
+        return exact ?: closest ?: preferred
     }
 
     private val stateCallback = object: CameraDevice.StateCallback() {

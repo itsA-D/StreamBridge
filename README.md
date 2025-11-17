@@ -54,4 +54,78 @@ This project is a minimal, modular implementation demonstrating:
 ## Files included
 See the repository tree. After adjusting OpenCV paths, you should be able to open the project in Android Studio and build.
 
+## Features implemented
+
+- Android
+   - Camera2 capture pipeline (ImageReader -> YUV/NV21 frames)
+   - JNI bridge to native C++
+   - OpenCV-based processing (e.g., Canny edge detection)
+   - Optional OpenGL ES 2.0 rendering path for processed RGBA frames
+- Web
+   - TypeScript viewer renders processed frames or a sample preview
+   - Simple controls scaffolding for future parameters
+
+## Screenshots / GIF
+
+Add your captures before submission. Suggested locations:
+
+- Android: `app/src/main/res/drawable/` (PNG/JPG) or link below
+- Web: `web/assets/screenshots/`
+
+Embedded examples (replace paths with your actual files):
+
+![Android Preview](web/assets/screenshots/android_preview.png)
+
+![Web Preview](web/assets/screenshots/web_preview.png)
+
+![Demo GIF](web/assets/screenshots/demo.gif)
+
+## Quick architecture (JNI + frame flow + TS)
+
+High-level flow:
+1. Camera2 -> Java/Kotlin receives NV21/YUV frame
+2. Java/Kotlin -> JNI passes a ByteArray/ByteBuffer to native
+3. C++ (OpenCV) converts color, processes frame, returns RGBA/encoded bytes
+4. Java/Kotlin displays locally (GLSurfaceView) and/or exports frame/metadata
+5. Web (TypeScript) receives data (e.g., via HTTP/WebSocket) and renders to canvas
+
+Error modes to watch:
+- Missing NDK/OpenCV or incorrect CMake configuration
+- Camera permission denied
+- Emulator camera limitations; prefer physical device
+
+## Setup summary (Android + Web)
+
+Android quick steps:
+- Install Android Studio, SDK, NDK (r21+ recommended), and CMake
+- Download OpenCV Android SDK and point CMakeLists.txt to `sdk/native/jni`
+- Link against OpenCV and run on a device
+
+Web quick steps:
+- Install Node.js + TypeScript; build with `tsc` in `web/` and open `index.html`
+
+## Commit history guidance (for assignment)
+
+Your submission requires a clear, multi-commit history (avoid a single "final" commit). Two options:
+
+1) Commit as you build: small, meaningful commits like:
+    - feat(native): add JNI bridge skeleton
+    - feat(camera): capture NV21 frames via ImageReader
+    - feat(opencv): integrate Canny edge processing
+    - feat(gl): render RGBA texture in GLSurfaceView
+    - feat(web): add TS viewer and basic canvas renderer
+    - fix(native): correct buffer stride and memory leak
+
+2) If you already finished the code, generate a commit trail with the provided script:
+    - Run `scripts/create_dev_commits.ps1` from the repo root (PowerShell)
+    - Review `git log --oneline --decorate` before pushing
+
+## Submission checklist
+
+- [ ] README updated with features, screenshots/GIF
+- [ ] OpenCV + NDK configured and buildable
+- [ ] Web viewer compiles with `tsc`
+- [ ] Multiple meaningful commits showing development steps
+- [ ] GitHub repository link ready for submission
+
 --- End of README

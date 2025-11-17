@@ -252,7 +252,7 @@ edge_detection_IS_TOP_LEVEL:STATIC=ON
 edge_detection_SOURCE_DIR:STATIC=A:/shinobi no shuriken/github repo/FLAM/StreamBridge/app/src/main/cpp
 
 //Dependencies for the target
-native-lib_LIB_DEPENDS:STATIC=general;opencv_calib3d;general;opencv_core;general;opencv_dnn;general;opencv_features2d;general;opencv_flann;general;opencv_gapi;general;opencv_highgui;general;opencv_imgcodecs;general;opencv_imgproc;general;opencv_ml;general;opencv_objdetect;general;opencv_photo;general;opencv_stitching;general;opencv_video;general;opencv_videoio;general;android;general;log;
+native-lib_LIB_DEPENDS:STATIC=general;opencv_calib3d;general;opencv_core;general;opencv_dnn;general;opencv_features2d;general;opencv_flann;general;opencv_gapi;general;opencv_highgui;general;opencv_imgcodecs;general;opencv_imgproc;general;opencv_ml;general;opencv_objdetect;general;opencv_photo;general;opencv_stitching;general;opencv_video;general;opencv_videoio;general;c++_shared;general;android;general;log;
 
 
 ########################

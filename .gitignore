@@ -7,7 +7,46 @@ local.properties
 *.iml
 *.apk
 *.keystore
+.cxx/
+.kotlin/
+/.vscode/
+/.vs/
 
 # Node
 node_modules/
 dist/
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# OS junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Env / secrets
+.env
+.env.*
+*.keystore
+*.jks
+*.pem
+*.p12
+*.crt
+*.key
+
+# Reports & coverage
+coverage/
+build/reports/
+reports/
+
+# Generated lock override (keep package-lock.json unless you intentionally exclude)
+# Uncomment next line to ignore lockfile:
+# package-lock.json
+
+# JetBrains cache
+.idea/

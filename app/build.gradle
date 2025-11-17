@@ -3,10 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-
 android {
     namespace "com.example.edgeapp"
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.example.edgeapp"
@@ -34,6 +33,13 @@ android {
         }
     }
 
+    packaging {
+        jniLibs {
+            // If multiple transitive deps bundle this, prefer the first; prevents build failure
+            pickFirsts += ["**/libc++_shared.so"]
+        }
+    }
+
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
@@ -41,23 +47,18 @@ android {
         }
     }
 
-
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['src/main/jniLibs']
-        }
-    }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.2.21"
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.core:core-ktx:1.17.0'
     implementation 'com.google.android.material:material:1.13.0'

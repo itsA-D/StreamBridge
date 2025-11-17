@@ -1,12 +1,20 @@
 package com.example.edgeapp
 
 object NativeBridge {
+    @Volatile var isLoaded: Boolean = false
+        private set
+
     init {
-        System.loadLibrary("native-lib")
+        try {
+            System.loadLibrary("c++_shared")
+            System.loadLibrary("opencv_java4")
+            System.loadLibrary("native-lib")
+            isLoaded = true
+        } catch (t: Throwable) {
+            isLoaded = false
+        }
     }
 
-    // Accepts NV21 bytes and returns processed RGBA bytes (width*height*4) or null on error.
     external fun processFrameNV21(input: ByteArray, width: Int, height: Int): ByteArray?
-    
     external fun convertNV21ToRGBA(input: ByteArray, width: Int, height: Int): ByteArray?
 }

@@ -14,4 +14,4 @@ message(STATUS "OpenCV include: ${OpenCV_INCLUDE_DIRS}")
 add_library(native-lib SHARED native-lib.cpp)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
-target_link_libraries(native-lib ${OpenCV_LIBS} android log)
+target_link_libraries(native-lib ${OpenCV_LIBS} c++_shared android log)
