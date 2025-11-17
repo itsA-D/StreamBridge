@@ -1,6 +1,6 @@
 <div align="center">
 
-# Real-Time Edge Detection App
+# StreamBridge
 
 Android Camera2 + OpenCV (C++) + OpenGL ES 2.0 + Web Viewer (TypeScript)
 
