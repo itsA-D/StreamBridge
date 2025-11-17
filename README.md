@@ -1,24 +1,6 @@
-# Real-Time Edge Detection App
-Android (Camera2) + OpenCV (C++) + OpenGL ES 2.0 + Web Viewer (TypeScript)
-
-## Overview
-This project is a minimal, modular implementation demonstrating:
-- Camera2 capture (ImageReader -> YUV frames).
-- Native C++ processing (OpenCV) via JNI (Canny edge detection).
-- Rendering processed frames using OpenGL ES 2.0 (GLSurfaceView).
-- A lightweight TypeScript-based web viewer that displays a sample processed frame.
-
-**Important:** This repository contains all source code. You **must** install the Android NDK, CMake and provide the OpenCV Android SDK (headers & native libs) as described below before building.
-
-## Contents
-- `/app` - Android Studio project (module) with Kotlin sources and native C++ sources.
-- `/web` - Plain TypeScript + HTML viewer (build with `tsc`).
-
-## How to build (Android)
-1. Install Android Studio, Android SDK, Android NDK (r21+ recommended), and CMake.
 <div align="center">
 
-# StreamBridge
+# Real-Time Edge Detection App
 
 Android Camera2 + OpenCV (C++) + OpenGL ES 2.0 + Web Viewer (TypeScript)
 
@@ -80,7 +62,7 @@ StreamBridge is a compact, production‑ready skeleton that:
 - Renders frames efficiently using OpenGL ES 2.0 (GLSurfaceView).
 - Ships a minimal TypeScript web viewer for preview or future streaming.
 
-Important: OpenCV Android SDK libraries are not committed (size/licensing). You must integrate them locally as described below.
+**Important:** This repository contains all source code. You **must** install the Android NDK, CMake and provide the OpenCV Android SDK (headers & native libs) as described below before building.
 
 ## Key Features
 
