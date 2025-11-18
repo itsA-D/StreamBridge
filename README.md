@@ -16,7 +16,7 @@ Android Camera2 + OpenCV (C++) + OpenGL ES 2.0 + Web Viewer (TypeScript)
 
 ---
 
-## Description
+## 🧾 Description
 
 StreamBridge is a real‑time edge‑detection pipeline for Android that bridges on‑device image processing (OpenCV/C++) with efficient rendering (OpenGL ES 2.0) and an optional web viewer (TypeScript). It is designed as a clean, educational codebase you can clone and extend to your needs: prototype vision algorithms, experiment with camera pipelines, or evolve into full streaming (WebSocket/WebRTC) scenarios.
 
@@ -35,26 +35,26 @@ What you get
 - Two OpenCV integration modes (CMake or bundled libs) to match your workflow.
 - A tiny TS viewer you can connect to any future transport.
 
-## Table of Contents
+## 🧭 Table of Contents
 
-- Overview
-- Key Features
-- Quick Start
-    - Android: Build & Run
-    - Web Viewer
-- OpenCV Integration Details
-- Architecture
-- Project Structure
-- Screenshots
-- Troubleshooting
-- Performance Notes
-- Roadmap
-- FAQ
-- Contributing
-- License
-- Acknowledgements
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Quick Start](#-quick-start)
+    - [Android: Build & Run](#android-build--run)
+    - [Web Viewer](#web-viewer)
+- [OpenCV Integration Details](#-opencv-integration-details)
+- [Architecture](#-architecture)
+- [Project Structure](#-project-structure)
+- [Screenshots](#-screenshots)
+- [Troubleshooting](#-troubleshooting)
+- [Performance Notes](#-performance-notes)
+- [Roadmap](#-roadmap)
+- [FAQ](#-faq)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Acknowledgements](#-acknowledgements)
 
-## Overview
+## 📌 Overview
 
 StreamBridge is a compact, production‑ready skeleton that:
 - Captures camera frames with Camera2 (YUV_420_888 → NV21).
@@ -64,7 +64,7 @@ StreamBridge is a compact, production‑ready skeleton that:
 
 **Important:** This repository contains all source code. You **must** install the Android NDK, CMake and provide the OpenCV Android SDK (headers & native libs) as described below before building.
 
-## Key Features
+## ✨ Key Features
 
 - Camera2 capture pipeline with background threading.
 - JNI bridge and native OpenCV processing (NV21 → RGBA → Canny → RGBA).
@@ -72,7 +72,7 @@ StreamBridge is a compact, production‑ready skeleton that:
 - Modular layout: Kotlin UI/capture, C++ processing, GL rendering, TypeScript viewer.
 - Clear integration points to extend into WebSocket/WebRTC streaming.
 
-## Quick Start
+## ⚡ Quick Start
 
 Prerequisites
 - Android Studio (AGP 8.x), SDK Platform 34+ (or your target), NDK, CMake
@@ -108,7 +108,7 @@ npx http-server -c-1
 
 3) Open the printed `http://127.0.0.1:<port>` and load `index.html`.
 
-## OpenCV Integration Details
+## 🛠️ OpenCV Integration Details
 
 Option A — CMake (recommended)
 ```cmake
@@ -138,7 +138,7 @@ defaultConfig {
 }
 ```
 
-## Architecture
+## 🧩 Architecture
 
 Core modules
 - `MainActivity.kt`: Camera2 setup, permissions, frame collection (NV21).
@@ -161,7 +161,7 @@ Camera2 (YUV_420_888)
    → (optional) export/stream to the web
 ```
 
-## Project Structure
+## 🗂️ Project Structure
 
 - `app/` — Android module (Kotlin + C++ + GL)
 - `web/` — TypeScript viewer (`viewer.ts`, `index.html`, assets)
@@ -169,7 +169,7 @@ Camera2 (YUV_420_888)
 - `build.gradle`, `settings.gradle`, `gradle.properties` — build config
 - `.gitignore` — excludes build outputs, IDE caches, secrets
 
-## Screenshots
+## 🖼️ Screenshots
 
 Add your captures under `web/assets/screenshots/` or link externally:
 
@@ -177,7 +177,7 @@ Add your captures under `web/assets/screenshots/` or link externally:
 ![Web Preview](web/assets/screenshots/web_preview.png)
 ![Demo GIF](web/assets/screenshots/demo.gif)
 
-## Roadmap
+## 🛣️ Roadmap
 
 - Live preview streaming over WebSocket (simple MJPEG or RGBA chunking)
 - Optional WebRTC path (low‑latency, bidirectional control)
@@ -185,7 +185,7 @@ Add your captures under `web/assets/screenshots/` or link externally:
 - Zero‑copy paths (External OES textures; GPU processing experiments)
 - Packaging script to fetch OpenCV SDK and verify `jniLibs` completeness
 
-## FAQ
+## ❓ FAQ
 
 - Why not just process on the CPU in Kotlin?
     - OpenCV’s native SIMD/NEON paths and better memory control reduce GC pressure and improve throughput.
@@ -196,20 +196,20 @@ Add your captures under `web/assets/screenshots/` or link externally:
 - How do I stream frames to the web?
     - Add a transport (e.g., WebSocket server in the app or a companion desktop/server) and feed RGBA/JPEG to the viewer.
 
-## Troubleshooting
+## 🧪 Troubleshooting
 
 - OpenCV not found during CMake: ensure `OpenCV_DIR` points to `.../sdk/native/jni`.
 - `UnsatisfiedLinkError: libc++_shared.so`: include it in `jniLibs/<abi>/` or link via CMake.
 - `MergeNativeLibs` ABI errors: put `.so` files under ABI folders, not directly under `jniLibs/`.
 - Emulator camera quirks: prefer a physical device for reliable camera feeds.
 
-## Performance Notes
+## 🚀 Performance Notes
 
 - Start with 640×480; raise resolution gradually while monitoring FPS.
 - Avoid copying large buffers repeatedly; prefer direct ByteBuffer/texture paths.
 - Future optimizations: external textures, GPU image processing, zero‑copy pipelines.
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork and clone
 2. Create a feature branch
@@ -218,15 +218,15 @@ Add your captures under `web/assets/screenshots/` or link externally:
 
 Tip: If you need to generate a commit history after development, run `scripts/create_dev_commits.ps1` (PowerShell) and review with `git log --oneline`.
 
-## License
+## 📝 License
 
 This project is licensed under the ISC License. See the license field in `package.json`.
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 - OpenCV team for the Android SDK
 - Android frameworks and samples for Camera2 and GL patterns
 - TypeScript community for simple tooling
-2) Build → Clean Project, then Rebuild
 
-3) Run on device; grant Camera permission
+[↑ Back to top](#streambridge)
+
